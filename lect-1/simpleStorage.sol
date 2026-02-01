@@ -1,50 +1,41 @@
-///SPDX-License-Identifier:MIT
-pragma solidity 0.8.18; //solidity version
-//like we have class in oops lang in this we have contract
-contract  SimpleStorage {
-    //diff types of remix -string,uint,int,bytes etc
-    //int and unit can be written as uint32,64,256
-    //but byte is written as byte32 --max
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.24;
 
-    //uint256 favoriteNumber=0 or favoriteNumber; is same //as its initialized with 0 
+/*
+   SimpleStorage Contract:
+   - Stores a favorite number
+   - Allows adding people with their favorite numbers
+   - Maps names to favorite numbers
+*/
 
-     //we can use "public" keyword to display fav no as this is internal by default 
-
-    uint256 public favoriteNumber;
-    //function in solidity
-  function store (uint256 _favoriteNumber) public {
-    favoriteNumber=_favoriteNumber;
-      uint testvar =29;
-    }
-  function retrieve()  public view returns(uint256) {
-    return favoriteNumber;
- }
- //this is wrong as pure does not even allow us to read another state but view does
-  function retrieve()  public pure returns(uint256) {
-    return favoriteNumber;
- }
-
- function somtething public {
-  //this is wromg as we can not access func outside 
-  testvar=7;
-  //but thuis is correct as fav is inside SimpleStorage
-  favoriteNumber=78
- }
-
-       struct Person{
+contract SimpleStorage {
+    // State variables
+    uint256 public favoriteNumber; // Stores a single favorite number
+    struct Person { // Defines a Person struct
         uint256 favoriteNumber;
         string name;
-      }
+    }
+    Person[] public listOfPeople; // Dynamic array of Person structs
+    mapping(string => uint256) public nameToFavoriteNumber; // Maps names to favorite numbers
 
-    //   Person public ak = Person({
-    //     favoriteNumber:7,name: "ani"
-    //   });
+    // Stores a favorite number
+    function store(uint256 _favoriteNumber) public {
+        favoriteNumber = _favoriteNumber;
+    }
 
-    //creating dynamc list 
-    Person[] public listOfPeople;
-   function addPerson(string memory _name,uint256 _favoriteNumber) public {
-    listOfPeople.push(Person(_favoriteNumber,_name));
-   }
+    // Retrieves the stored favorite number
+    function retrieve() public view returns(uint256) {
+        return favoriteNumber;
+    }
 
+    // Adds a person to the list and updates the mapping
+    function addPerson(string memory _name, uint256 _favoriteNumber) public {
+        listOfPeople.push(Person(_favoriteNumber, _name));
+        nameToFavoriteNumber[_name] = _favoriteNumber;
+    }
 
+    // NOTE: The following function was incorrect (pure cannot modify state)
+    // function pureFunction() public pure {
+    //     testvar = 123; // This would fail
+    // }
 }
