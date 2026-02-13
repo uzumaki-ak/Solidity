@@ -31,7 +31,7 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interf
 contract FundMe {
     
     // uint256 public myval=1;
-    uint256 public minimumUSD = 5;
+    uint256 public minimumUSD = 5 * 1e18;
     function fund() public payable {
         //alllow user ot send money
         //have a minimum usd dol  sent
@@ -43,7 +43,7 @@ contract FundMe {
          // if the amount is less than 1e18 it will revert
          // msg.value is the amount of eth sent by the user
         //  myval = myval+2;
-        require(msg.value > 1e18, "minimum amount required");
+        require(getConversionRate(msg.value) >= minimumUSD, "minimum amount required");
     }
 
 // function withdraw() public{} 
@@ -56,6 +56,10 @@ return AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306).version
      (,int256 price , , ,) = priceFeed.latestRoundData();
     return uint256(price * 1e10);
  }
- function getConversionRate() public {}
+ function getConversionRate(uint256 ethAmount) public view returns(uint256) {
+    uint256 ethPrice = getPrice();
+  uint ethAmountInUsd = (ethPrice * ethAmount) / 1e18;
+  return ethAmountInUsd;
+ }
 
 }
