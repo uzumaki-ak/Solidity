@@ -6,6 +6,8 @@ pragma solidity ^0.8.24;
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 
+//old method to get pricr👇
+
 // solhint-disable-next-line interface-starts-with-i
 // interface AggregatorV3Interface {
 //   function decimals() external view returns (uint8);
@@ -45,10 +47,15 @@ contract FundMe {
     }
 
 // function withdraw() public{} 
-
- function  getPrice() public {}
- function getConversionRate() public {}
  function getVersion() public view returns (uint256) {
 return AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306).version();
  }
+
+ function  getPrice() public view returns(uint256) {
+    AggregatorV3Interface priceFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
+     (,int256 price , , ,) = priceFeed.latestRoundData();
+    return uint256(price * 1e10);
+ }
+ function getConversionRate() public {}
+
 }
