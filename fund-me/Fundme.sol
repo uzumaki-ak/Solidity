@@ -32,6 +32,9 @@ contract FundMe {
     
     // uint256 public myval=1;
     uint256 public minimumUSD = 5 * 1e18;
+    address[] public funders;
+     mapping (address funder => uint256 funded) public addressToAmountFunded;
+
     function fund() public payable {
         //alllow user ot send money
         //have a minimum usd dol  sent
@@ -44,6 +47,10 @@ contract FundMe {
          // msg.value is the amount of eth sent by the user
         //  myval = myval+2;
         require(getConversionRate(msg.value) >= minimumUSD, "minimum amount required");
+        //receiving sender naame
+        funders.push(msg.sender);
+        //getting to know about who funded how much
+        addressToAmountFunded[msg.sender] = addressToAmountFunded[msg.sender] + msg.value;
     }
 
 // function withdraw() public{} 
