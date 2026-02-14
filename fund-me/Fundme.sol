@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.24;
 
-import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+import {PriceConvertor} from './PriceConverter.sol';
 
 
 //old method to get pricr👇
@@ -29,7 +29,7 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interf
 
 
 contract FundMe {
-    
+    using PriceConvertor for uint256;
     // uint256 public myval=1;
     uint256 public minimumUSD = 5 * 1e18;
     address[] public funders;
@@ -46,7 +46,8 @@ contract FundMe {
          // if the amount is less than 1e18 it will revert
          // msg.value is the amount of eth sent by the user
         //  myval = myval+2;
-        require(getConversionRate(msg.value) >= minimumUSD, "minimum amount required");
+        //made our own library and imported and used it 
+        require(msg.value.getConversionRate() >= minimumUSD, "minimum amount required");
         //receiving sender naame
         funders.push(msg.sender);
         //getting to know about who funded how much
@@ -54,19 +55,6 @@ contract FundMe {
     }
 
 // function withdraw() public{} 
- function getVersion() public view returns (uint256) {
-return AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306).version();
- }
-
- function  getPrice() public view returns(uint256) {
-    AggregatorV3Interface priceFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
-     (,int256 price , , ,) = priceFeed.latestRoundData();
-    return uint256(price * 1e10);
- }
- function getConversionRate(uint256 ethAmount) public view returns(uint256) {
-    uint256 ethPrice = getPrice();
-  uint ethAmountInUsd = (ethPrice * ethAmount) / 1e18;
-  return ethAmountInUsd;
- }
+ 
 
 }
