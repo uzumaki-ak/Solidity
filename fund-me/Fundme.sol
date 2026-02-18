@@ -54,7 +54,30 @@ contract FundMe {
         addressToAmountFunded[msg.sender] = addressToAmountFunded[msg.sender] + msg.value;
     }
 
-// function withdraw() public{} 
+function withdraw() public{
+    for(uint256 funderIndex=0;funderIndex<funders.length;funderIndex ++) {
+      address funder = funders[funderIndex];
+      addressToAmountFunded[funder]=0;
+    
+    }
+    //resetting the array
+funders=new address[](0);
+
+//transfer method
+//three transfer,send,call
+//transfer thisis now depreceated
+// payable(msg.sender).transfer(address(this).balance);
+// 2.send this return bol and req to use 'require' keyword to refund ekse wont refund
+// this 'send' is deprecated and scheduled for removal. 
+// bool sendSuccuess = payable(msg.sender).send(address(this).balance);
+// require(sendSuccuess,"failed");
+
+
+//3.call this is recommended this has some good and adv usage but here we will use to send transaction only this reurns 2 val callSuccess and dataReturnes
+
+(bool callSuccess,) = payable(msg.sender).call{value:address(this).balance}("");
+require(callSuccess,"failed");
+} 
  
 
 }
