@@ -34,7 +34,10 @@ contract FundMe {
     uint256 public minimumUSD = 5 * 1e18;
     address[] public funders;
      mapping (address funder => uint256 funded) public addressToAmountFunded;
-
+  address public owner;
+  constructor() {
+    owner = msg.sender;
+  }
     function fund() public payable {
         //alllow user ot send money
         //have a minimum usd dol  sent
@@ -54,7 +57,11 @@ contract FundMe {
         addressToAmountFunded[msg.sender] = addressToAmountFunded[msg.sender] + msg.value;
     }
 
-function withdraw() public{
+function withdraw() public onlyOwner{
+
+    //ensuring no one else can call withdraw func
+    ///we can't be using this one if there are 100s of func which need it so we usse what called modifier
+    // require(msg.sender == owner, 'failed no owner');
     for(uint256 funderIndex=0;funderIndex<funders.length;funderIndex ++) {
       address funder = funders[funderIndex];
       addressToAmountFunded[funder]=0;
@@ -79,5 +86,10 @@ funders=new address[](0);
 require(callSuccess,"failed");
 } 
  
+modifier onlyOwner() {
+    require(msg.sender == owner , 'not owner');
+    _;
 
+    //the order of thi underscore "_" maters if it was above then it would mean that execute all func first then this onlyowner but now it is exec onlyowner first then only withdraw func
+}
 }
