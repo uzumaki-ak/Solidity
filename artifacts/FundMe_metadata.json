@@ -7,8 +7,21 @@
 		"abi": [
 			{
 				"inputs": [],
-				"stateMutability": "nonpayable",
+				"stateMutability": "payable",
 				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "MINIMUM_USD",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
 			},
 			{
 				"inputs": [
@@ -57,20 +70,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "minimumUSD",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "owner",
+				"name": "i_owner",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -96,7 +96,11 @@
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {},
+			"methods": {
+				"MINIMUM_USD()": {
+					"notice": "to yse constant use constant keyword ane it is advised to keep all caps lock the namin i.e"
+				}
+			},
 			"version": 1
 		}
 	},
@@ -125,11 +129,11 @@
 			]
 		},
 		"fund-me/Fundme.sol": {
-			"keccak256": "0xbf42f694abbd446bbef58234d7a969885600506fb6244d4eae6610fc94057649",
+			"keccak256": "0x60e9315130478ceb6f1da03bf3acedf797a1d1d6623f2b774ec69ebe458add53",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://dba233e3e109381f332a26aa9df6eb7176c13c2b38d1caa7df9082019ba8c4b0",
-				"dweb:/ipfs/QmW5yh5PyomMyPpNwtq4mia9RhwydnWeJ8zXrn22Wt9kxo"
+				"bzz-raw://321125603410f69f4752dc1fef211e700d799a52a827190fd59a171365ecf995",
+				"dweb:/ipfs/Qme1atHA8dCvVgtiHAY2LvxPtxQkjgCrxhC39AMTxEty3P"
 			]
 		},
 		"fund-me/PriceConverter.sol": {
