@@ -27,7 +27,7 @@ import {PriceConvertor} from './PriceConverter.sol';
 // }
 
 
-
+error notOwner();
 contract FundMe {
     using PriceConvertor for uint256;
     // uint256 public myval=1;
@@ -94,9 +94,11 @@ require(callSuccess,"failed");
 } 
  
 modifier onlyOwner() {
-    require(msg.sender == i_owner , 'not owner');
+    // require(msg.sender == i_owner , 'not owner');
+    //using gas efficient method
+    if(msg.sender != i_owner) {revert  notOwner ();}
     _;
 
-    //the order of thi underscore "_" maters if it was above then it would mean that execute all func first then this onlyowner but now it is exec onlyowner first then only withdraw func
+    //the order of thi underscore "_" maters  if it was above then it would mean that execute all func first then this onlyowner but now it is exec onlyowner first then only withdraw func
 }
 }
